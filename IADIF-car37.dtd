@@ -1,0 +1,260 @@
+<!--
+Changelog:
+- 27.09.2012 : Add optional NBF attribute.
+- 27.06.2017 : Added CAR_PREMIUMBRAND_LABEL and CAR_PREMIUMBRAND_LINK
+- 16.10.2017 : Added SERVICE_PLAN_FOLLOWED
+- 26.10.2017 : Added RIGHT_TO_EXCHANGE
+- 25.01.2018 : Removed ROADTAX_INCLUDED
+- 07.05.2019 : Added DRIVING_RANGE, BATTERY_CAPACITY og MAX_TRAILER_WEIGHT
+- 02.03.2020 : Remove REGNO_HIDE
+- 25.03.2020 : Removed attributes REGISTRATIONTAX_INCLUDED, VAT_INCLUDED from MOTOR_PRICE.
+               Removed elements MOTOR_PRICE/CURRENCY. WARRANTY_URL, INSURANCE_PARTNER, FINANCE_PARTNER,
+                                CONTACT/FAX, CONTACT/EDIALOGID
+               Added TRANSMISSION_SPECIFICATION, WHEEL_DRIVE_SPECIFICATION
+- 10.11.2020 : Bump HEAD tag to v4.0
+- 28.03.2022 : Add EU_CHECK_LAST and EU_CHECK_NEXT
+- 05.05.2022 : Add new CONDITION_REPORT_URL
+
+    For elements requiring a reference value, check out
+    https://hjelpesenter.finn.no/hc/no/articles/200214581-Extraction-of-predefined-values-for-use-in-xml-files
+    for help.
+-->
+<!-- This is the DTD used for submitting used cars. Multiple objects may be included -->
+<!ELEMENT IAD.IF.CAR (HEAD, OBJECT+)>
+
+<!-- HEAD - partner / provider information -->
+<!ENTITY % HEAD SYSTEM "https://www.finn.no/dtd/IADIF-head40.dtd">
+%HEAD;
+
+<!ELEMENT OBJECT (OBJECT_HEAD, CAR)>
+
+<!-- OBJECT_HEAD - ad metadata -->
+<!ENTITY % OBJECT_HEAD SYSTEM "https://www.finn.no/dtd/IADIF-objecthead22.dtd">
+%OBJECT_HEAD;
+
+<!-- List of fields for CAR-->
+<!ELEMENT CAR (
+        CAR_SALESFORM,
+        REGNO?,
+        CHASSIS_NO?,
+        YEAR_MODEL,
+        CAR_MODEL,
+        CAR_LOCATION?,
+        ENGINE,
+        CO2?,
+        BATTERY_CAPACITY?,
+        DRIVING_RANGE?,
+        TRANSMISSION,
+        TRANSMISSION_SPECIFICATION,
+        WHEEL_DRIVE,
+        WHEEL_DRIVE_SPECIFICATION,
+        BODY_TYPE,
+        REGISTRATION_CLASS,
+        NO_OF_SEATS,
+        NO_OF_DOORS?,
+        SIZE_OF_BOOT?,
+        WEIGHT?,
+        MAX_TRAILER_WEIGHT?,
+        EXTERIOR_COLOUR_MAIN,
+        EXTERIOR_COLOUR?,
+        INTERIOR_COLOUR?,
+        EQUIPMENT*,
+        MILEAGE,
+        REGISTRATION_FIRST?,
+        EU_CHECK_LAST?,
+        EU_CHECK_NEXT?,
+        NO_OF_OWNERS?,
+        WARRANTY?,
+        WARRANTY_DURATION?,
+        WARRANTY_DISTANCE?,
+        CAR_CONDITION_DOC?,
+        CONDITION_REPORT_URL?,
+        RIGHT_TO_EXCHANGE?,
+        SERVICE_PLAN_FOLLOWED?,
+        CAR_SERVICE_HISTORY?,
+        NBF?,
+        CAR_PREMIUMBRAND?,
+        CAR_PREMIUMBRAND_LINK?,
+        VIDEO_URL?,
+        DESCRIPTION?,
+        MOREINFO*,
+        MOTOR_PRICE,
+        CONTACT
+        )>
+
+<!-- Enum. Car salesform must match a reference value -->
+<!ELEMENT CAR_SALESFORM (#PCDATA)>
+
+<!-- Text. The registration number of the car. At least one of REGNO and CHASSIS_NO must be included -->
+<!ELEMENT REGNO (#PCDATA)>
+
+<!-- Text. 17 - 19 characters. The chassis number of the car. At least one of REGNO and CHASSIS_NO must be included -->
+<!ELEMENT CHASSIS_NO (#PCDATA)>
+
+<!-- Integer. 4 digits. Minimum value: 1900 -->
+<!ELEMENT YEAR_MODEL (#PCDATA)>
+
+<!-- Car make/model -->
+<!ELEMENT CAR_MODEL (MAKE, MODEL, MODEL_SPECIFICATION?)>
+<!-- Enum. Make must match a reference value  -->
+<!ELEMENT MAKE (#PCDATA)>
+<!-- Enum. Model must match a reference value -->
+<!ELEMENT MODEL (#PCDATA)>
+<!-- Text. Model details. Max length 55 characters -->
+<!ELEMENT MODEL_SPECIFICATION (#PCDATA)>
+
+<!-- Enum. Car location must match a reference value -->
+<!ELEMENT CAR_LOCATION (#PCDATA)>
+
+<!-- Engine -->
+<!ELEMENT ENGINE (EFFECT?, VOLUME?, FUEL)>
+<!-- Enum. Fuel must match a reference value -->
+<!ELEMENT FUEL (#PCDATA)>
+<!-- Decimal with . as separator. Motor volume in litre -->
+<!ELEMENT VOLUME (#PCDATA)>
+<!-- Integer. Number of horse powers -->
+<!ELEMENT EFFECT (#PCDATA)>
+
+<!-- Integer. CO2 emissions in grams/kilometer -->
+<!ELEMENT CO2 (#PCDATA)>
+
+<!-- Integer. Battery capacity in Kwh -->
+<!ELEMENT BATTERY_CAPACITY (#PCDATA)>
+
+<!-- Integer. Driving range in kilometers (WLTP) -->
+<!ELEMENT DRIVING_RANGE (#PCDATA)>
+
+<!-- Transmission -->
+<!ELEMENT TRANSMISSION (#PCDATA)>
+<!-- Searchkey should match an enum reference value. A description as free text should be within the tag -->
+<!ATTLIST TRANSMISSION SEARCHKEY (manual|automatic|semiautomatic) #IMPLIED >
+
+<!-- Text. Description / specification of the transmission system -->
+<!ELEMENT TRANSMISSION_SPECIFICATION (#PCDATA)>
+
+<!-- Wheel drive -->
+<!ELEMENT WHEEL_DRIVE (#PCDATA)>
+<!-- Searchkey should match an enum reference value. A description as free text should be within the tag -->
+<!ATTLIST WHEEL_DRIVE SEARCHKEY (frontwheeledrive|rearwheeledrive|fourwheeledrive) #IMPLIED>
+
+<!-- Text. Description / specification of the transmission system -->
+<!ELEMENT WHEEL_DRIVE_SPECIFICATION (#PCDATA)>
+
+<!-- Enum. Body type must match a reference value  -->
+<!ELEMENT BODY_TYPE (#PCDATA)>
+
+<!-- Enum. Registration class must match a reference values -->
+<!ELEMENT REGISTRATION_CLASS (#PCDATA)>
+
+<!-- Integer -->
+<!ELEMENT NO_OF_SEATS (#PCDATA)>
+
+<!-- Integer -->
+<!ELEMENT NO_OF_DOORS (#PCDATA)>
+
+<!-- Integer. Size of boot in liters -->
+<!ELEMENT SIZE_OF_BOOT (#PCDATA)>
+
+<!-- Integer. Weight of the car in kilograms -->
+<!ELEMENT WEIGHT (#PCDATA)>
+
+<!-- Integer. Maximum trailer weight in kilograms -->
+<!ELEMENT MAX_TRAILER_WEIGHT (#PCDATA)>
+
+<!-- Enum. Main colour must match a reference value. Main color of the car -->
+<!ELEMENT EXTERIOR_COLOUR_MAIN (#PCDATA)>
+
+<!-- Text. Description of the main colour, e.g. "Metallisk gul" -->
+<!ELEMENT EXTERIOR_COLOUR (#PCDATA)>
+
+<!-- Text. Description of the interior colour -->
+<!ELEMENT INTERIOR_COLOUR (#PCDATA)>
+
+<!-- Equipment. Several equipment may be included by repeating the tag -->
+<!ELEMENT EQUIPMENT (#PCDATA)>
+
+<!-- Searchkey should match an enum reference value. A description as free text should be within the tag -->
+<!ATTLIST EQUIPMENT SEARCHKEY  CDATA  #IMPLIED>
+
+<!-- Integer. Distance travelled in kilometers -->
+<!ELEMENT MILEAGE (#PCDATA)>
+
+<!-- Date. First time the car was registered in Norway. Must follow ISO-8601 format: YYYY-MM-DD -->
+<!ELEMENT REGISTRATION_FIRST (#PCDATA)>
+
+<!-- Date. Last time EU control was taken. Must follow ISO-8601 format: YYYY-MM-DD -->
+<!ELEMENT EU_CHECK_LAST (#PCDATA)>
+
+<!-- Date. Deadline for next EU check. Must follow ISO-8601 format: YYYY-MM-DD -->
+<!ELEMENT EU_CHECK_NEXT (#PCDATA)>
+
+<!-- Integer. The number of previous owners -->
+<!ELEMENT NO_OF_OWNERS (#PCDATA)>
+
+<!-- Enum. Warranty must match a reference value -->
+<!ELEMENT WARRANTY (#PCDATA)>
+
+<!-- Integer. The duration og the warranty in months -->
+<!ELEMENT WARRANTY_DURATION (#PCDATA)>
+
+<!-- Integer. The numbers of kilometers included in the warranty-->
+<!ELEMENT WARRANTY_DISTANCE (#PCDATA)>
+
+<!-- Enum. Only valid values are 'yes' or 'no'. Whether or not the ad has a condition report associated with it (uploaded through an MMO DTD) -->
+<!ELEMENT CAR_CONDITION_DOC (#PCDATA)>
+
+<!-- Text. URL to new condition report. Will replace CAR_CONDITION_DOC and upload of report through an MMO DTD-->
+<!ELEMENT CONDITION_REPORT_URL (#PCDATA)>
+
+<!-- Enum. Right to exchange must match a reference value. Whether or not the buyer has a right to exchange the vehicle for another vehicle after purchase -->
+<!ELEMENT RIGHT_TO_EXCHANGE (#PCDATA)>
+
+<!--Enum. Car service history must match a reference value. Whether or not the recommended service plan has been followed -->
+<!ELEMENT SERVICE_PLAN_FOLLOWED (#PCDATA)>
+
+<!-- Enum. Car service history must match a reference value. Whether or not the service history for the car is available -->
+<!ELEMENT CAR_SERVICE_HISTORY (#PCDATA)>
+
+<!-- Enum. Only valid values are 'yes' or 'no'. Whether or not the seller is part of NBF (Norges Bilbransjeforbund) -->
+<!ELEMENT NBF (#PCDATA)>
+
+<!-- Text. Maximum length 50 characters. Premium brand name -->
+<!ELEMENT CAR_PREMIUMBRAND (#PCDATA)>
+
+<!-- Text. URL of the form http(s)://example.com/example. Link to premium brand information -->
+<!ELEMENT CAR_PREMIUMBRAND_LINK (#PCDATA)>
+
+<!-- Use only approved video host sites -->
+<!ELEMENT VIDEO_URL (#PCDATA)>
+
+<!-- Text. Maximum length 1800 characters. General description of the car -->
+<!ELEMENT DESCRIPTION (#PCDATA)>
+
+<!-- External URLs. Several URLs may be included by repeating the tag -->
+<!ELEMENT MOREINFO (URL, URLTEXT?)>
+<!-- Text. URL of the form http(s)://example.com/example -->
+<!ELEMENT URL (#PCDATA)>
+<!-- Text. The clickable text shown on the web page -->
+<!ELEMENT URLTEXT (#PCDATA)>
+
+<!-- Price information. All prices in NOK -->
+<!ELEMENT MOTOR_PRICE ((TOTAL | NET), REGISTRATION)>
+<!-- Whether or not it is free to register the car on a new owner -->
+<!ATTLIST MOTOR_PRICE REREGISTRATION_EXEMPTION (yes | no) #IMPLIED>
+<!-- Integer. Cost of registering the car on a new owner in NOK -->
+<!ELEMENT REGISTRATION (#PCDATA)>
+<!-- Integer. Net price excluding registration cost in NOK. Will be ignored if TOTAL is set. -->
+<!ELEMENT NET (#PCDATA)>
+<!-- Integer. Net price excluding registration cost in NOK -->
+<!ELEMENT TOTAL (#PCDATA)>
+
+<!-- Contact information -->
+<!ELEMENT CONTACT (NAME?, PHONE?, MOBILE?, EMAIL?, URL?)>
+<!-- Text. Name of the person -->
+<!ELEMENT NAME (#PCDATA)>
+<!-- Text. Must be a valid phone number -->
+<!ELEMENT PHONE (#PCDATA)>
+<!-- Text. Must be a valid phone number -->
+<!ELEMENT MOBILE (#PCDATA)>
+<!-- Text. Must be a valid email address -->
+<!ELEMENT EMAIL (#PCDATA)>
